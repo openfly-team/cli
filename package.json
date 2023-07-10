@@ -11,7 +11,7 @@
     "index.js"
   ],
   "bin": {
-    "fly": "index"
+    "fly": "index.js"
   },
   "scripts": {
     "build": "rollup -c",
