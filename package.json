@@ -8,14 +8,14 @@
     "scaffold"
   ],
   "files": [
-    "index.js"
+    "dist"
   ],
   "bin": {
-    "fly": "index.js"
+    "fly": "dist/index.js"
   },
   "scripts": {
-    "build": "rollup -c",
-    "dev": "rollup -c -w",
+    "build": "tsc",
+    "dev": "tsc -w",
     "prepublishOnly": "yarn build",
     "release": "standard-version"
   },
@@ -40,8 +40,6 @@
   "homepage": "https://github.com/openflying/cli/tree/main/#readme",
   "devDependencies": {
     "@types/ejs": "^3.1.2",
-    "rollup": "^3.26.2",
-    "rollup-plugin-terser": "^7.0.2",
     "standard-version": "^6",
     "typescript": "^5.1.6"
   },
@@ -49,8 +47,6 @@
     "ejs": "^3.1.9",
     "kolorist": "^1.8.0",
     "prompts": "^2.4.2",
-    "rollup-plugin-typescript2": "^0.34.1",
-    "tslib": "^2.6.0",
     "typescript": "^5.1.6"
   }
 }
