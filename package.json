@@ -1,0 +1,56 @@
+{
+  "name": "@openfly/cli",
+  "version": "1.0.0",
+  "description": "通用前端工程化脚手架",
+  "keywords": [
+    "cli",
+    "fe",
+    "scaffold"
+  ],
+  "files": [
+    "index.js"
+  ],
+  "bin": {
+    "fly": "index"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "prepublishOnly": "yarn build",
+    "release": "standard-version"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/openflying/cli.git",
+    "directory": "packages/cli"
+  },
+  "author": {
+    "name": "紫竹",
+    "email": "luozhu2021@gmail.com",
+    "url": "https://youngjuning.js.org"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/openflying/cli/issues"
+  },
+  "homepage": "https://github.com/openflying/cli/tree/main/#readme",
+  "devDependencies": {
+    "@types/ejs": "^3.1.2",
+    "rollup": "^3.26.2",
+    "rollup-plugin-terser": "^7.0.2",
+    "standard-version": "^6",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "ejs": "^3.1.9",
+    "kolorist": "^1.8.0",
+    "prompts": "^2.4.2",
+    "rollup-plugin-typescript2": "^0.34.1",
+    "tslib": "^2.6.0",
+    "typescript": "^5.1.6"
+  }
+}
