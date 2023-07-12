@@ -84,13 +84,12 @@ program
     const fly = explorerSync.search(templateDirPath);
 
     if (fly?.config?.prompts) {
-      spinner.start(chalk.blackBright(`Rendering template`));
-      const tmpDir = await tmp.dir({ unsafeCleanup: true });
-      fs.copySync(`${templateDirPath}/template`, tmpDir.path);
       const promptKeys = fly.config.prompts.map(item => item.name);
       const data = await prompts(fly.config.prompts);
 
       if (isEqual(Object.keys(data), promptKeys)) {
+        const tmpDir = await tmp.dir({ unsafeCleanup: true });
+        fs.copySync(`${templateDirPath}/template`, tmpDir.path);
         const files = await recursive(tmpDir.path, [
           (file, stats) => {
             return stats.isDirectory() || !file.endsWith('.ejs');
@@ -102,13 +101,13 @@ program
           fs.writeFileSync(file, content);
           fs.renameSync(file, file.replace('.ejs', ''));
         });
+        fs.copySync(tmpDir.path, process.cwd());
+        await tmpDir.cleanup();
+        spinner.succeed(chalk.greenBright(`The project has been generated!`));
       }
-      spinner.succeed(chalk.greenBright(`Rendered template`));
-      fs.copySync(tmpDir.path, process.cwd());
-      await tmpDir.cleanup();
     } else {
       fs.copySync(`${templateDirPath}/template`, process.cwd());
+      spinner.succeed(chalk.greenBright(`The project has been generated!`));
     }
-    spinner.succeed(chalk.greenBright(`The project has been generated!`));
   });
 program.parse();
