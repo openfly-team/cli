@@ -2,13 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-### [1.0.1](https://github.com/openflying/cli/compare/v1.0.0...v1.0.1) (2023-07-10)
-
+## [1.1.0](https://github.com/openflying/cli/compare/v1.0.1...v1.1.0) (2023-07-12)
 
 ### Bug Fixes
 
-* add index.js ([8a7bcb7](https://github.com/openflying/cli/commit/8a7bcb7))
+- remove rollup ([2616b2b](https://github.com/openflying/cli/commit/2616b2b))
 
+### Features
 
+- 支持 github 模版和 npm 模版 ([47dc9a8](https://github.com/openflying/cli/commit/47dc9a8))
+
+### [1.0.1](https://github.com/openflying/cli/compare/v1.0.0...v1.0.1) (2023-07-10)
+
+### Bug Fixes
+
+- add index.js ([8a7bcb7](https://github.com/openflying/cli/commit/8a7bcb7))
 
 ## 1.0.0 (2023-07-10)
