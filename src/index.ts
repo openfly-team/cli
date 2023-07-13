@@ -11,6 +11,8 @@ import ora from 'ora';
 import chalk from 'chalk';
 import isEqual from 'lodash.isequal';
 import downloadNpmPackage from 'download-npm-package';
+import path from 'path';
+import Isemail from 'isemail';
 import { downloadGit, getErrorMessage } from './utils';
 
 const program = new Command();
@@ -25,8 +27,64 @@ program
   .description(packageJson.description);
 
 program
+  .command('create')
+  .description('Create openfly template')
+  .action(async () => {
+    const tmpDir = await tmp.dir({ unsafeCleanup: true });
+    fs.copySync(path.join(__dirname, '../template'), tmpDir.path);
+    const data = await prompts([
+      {
+        type: 'text',
+        name: 'packageName',
+        message: 'Input package name',
+      },
+      {
+        type: 'text',
+        message: 'Input project description',
+        name: 'packageDescription',
+        initial: 'A template based on openfly',
+      },
+      {
+        type: 'text',
+        message: 'author',
+        name: 'author',
+        validate: input => {
+          if (/[/\\]/im.test(input)) {
+            return 'Name cannot contain special characters';
+          }
+          return true;
+        },
+      },
+      {
+        type: 'text',
+        message: 'email',
+        name: 'email',
+        validate: input => {
+          if (!Isemail.validate(input)) {
+            return 'Email address is not valid';
+          }
+          return true;
+        },
+      },
+    ]);
+    const files = await recursive(tmpDir.path, [
+      (file, stats) => {
+        return stats.isDirectory() || !file.endsWith('.ejs');
+      },
+    ]);
+    files.forEach(file => {
+      const fileTemplate = fs.readFileSync(file).toString();
+      const content = ejs.render(fileTemplate, data);
+      fs.writeFileSync(file, content);
+      fs.renameSync(file, file.replace('.ejs', ''));
+    });
+    fs.copySync(tmpDir.path, process.cwd());
+    await tmpDir.cleanup();
+  });
+
+program
   .command('init')
-  .description('Initialize Project')
+  .description('Initialize project')
   .option('-r, --remote')
   .action(async options => {
     const { remote } = options;
@@ -37,8 +95,8 @@ program
         name: 'templateSource',
         message: 'Pick template source',
         choices: [
-          { title: 'Git', value: 'git' },
-          { title: 'NPM', value: 'npm' },
+          { title: 'Git Repository', value: 'git' },
+          { title: 'NPM Package', value: 'npm' },
         ],
       },
       {
@@ -75,7 +133,7 @@ program
         }
         spinner.succeed(chalk.greenBright(`Downloaded template`));
       } catch (error) {
-        spinner.fail(chalk.red(getErrorMessage(error)));
+        spinner.fail(chalk.redBright(getErrorMessage(error)));
         process.exit(0);
       }
     }
@@ -84,6 +142,9 @@ program
     const fly = explorerSync.search(templateDirPath);
 
     if (fly?.config?.prompts) {
+      if (!fs.existsSync(`${templateDirPath}/template`)) {
+        console.log(chalk.redBright(`The ${templateName} template is not have template folder!`));
+      }
       const promptKeys = fly.config.prompts.map(item => item.name);
       const data = await prompts(fly.config.prompts);
 
@@ -103,11 +164,14 @@ program
         });
         fs.copySync(tmpDir.path, process.cwd());
         await tmpDir.cleanup();
-        spinner.succeed(chalk.greenBright(`The project has been generated!`));
       }
-    } else {
+    } else if (fs.existsSync(`${templateDirPath}/template`)) {
       fs.copySync(`${templateDirPath}/template`, process.cwd());
-      spinner.succeed(chalk.greenBright(`The project has been generated!`));
+    } else {
+      console.log(
+        chalk.redBright(`The ${templateName} is not a openfly template, We just copy it!`)
+      );
+      fs.copySync(`${templateDirPath}`, process.cwd());
     }
   });
 program.parse();
