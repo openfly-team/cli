@@ -69,7 +69,7 @@ program
     ]);
     const files = await recursive(tmpDir.path, [
       (file, stats) => {
-        return stats.isDirectory() || !file.endsWith('.ejs');
+        return stats.isDirectory() || file.indexOf('.ejs.') < 0;
       },
     ]);
     files.forEach(file => {
@@ -153,9 +153,10 @@ program
         fs.copySync(`${templateDirPath}/template`, tmpDir.path);
         const files = await recursive(tmpDir.path, [
           (file, stats) => {
-            return stats.isDirectory() || !file.endsWith('.ejs');
+            return stats.isDirectory() || file.indexOf('.ejs.') < 0;
           },
         ]);
+
         files.forEach(file => {
           const fileTemplate = fs.readFileSync(file).toString();
           const content = ejs.render(fileTemplate, data);
