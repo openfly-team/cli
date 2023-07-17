@@ -67,11 +67,7 @@ program
         },
       },
     ]);
-    const files = await recursive(tmpDir.path, [
-      (file, stats) => {
-        return stats.isDirectory() || file.indexOf('.ejs.') < 0;
-      },
-    ]);
+    const files = (await recursive(tmpDir.path)).filter(file => file.indexOf('.ejs.') > -1);
     files.forEach(file => {
       const fileTemplate = fs.readFileSync(file).toString();
       const content = ejs.render(fileTemplate, data);
@@ -151,12 +147,7 @@ program
       if (isEqual(Object.keys(data), promptKeys)) {
         const tmpDir = await tmp.dir({ unsafeCleanup: true });
         fs.copySync(`${templateDirPath}/template`, tmpDir.path);
-        const files = await recursive(tmpDir.path, [
-          (file, stats) => {
-            return stats.isDirectory() || file.indexOf('.ejs.') < 0;
-          },
-        ]);
-
+        const files = (await recursive(tmpDir.path)).filter(file => file.indexOf('.ejs.') > -1);
         files.forEach(file => {
           const fileTemplate = fs.readFileSync(file).toString();
           const content = ejs.render(fileTemplate, data);
