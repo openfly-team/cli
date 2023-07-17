@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.2](https://github.com/openflying/cli/compare/v1.2.1...v1.2.2) (2023-07-17)
+
+
+### Bug Fixes
+
+* 修复不支持递归的问题 ([7d7d081](https://github.com/openflying/cli/commit/7d7d081))
+
+
+
 ### [1.2.1](https://github.com/openflying/cli/compare/v1.2.0...v1.2.1) (2023-07-15)
 
 
