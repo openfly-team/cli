@@ -67,10 +67,17 @@ program
         },
       },
     ]);
-    const files = (await recursive(tmpDir.path)).filter(file => file.indexOf('.ejs.') > -1);
+    const files = (await recursive(tmpDir.path)).filter(
+      file => file.indexOf('.ejs.') > -1 || file === '_gitignore' || file === 'npmrc'
+    );
     files.forEach(file => {
       const fileTemplate = fs.readFileSync(file).toString();
       const content = ejs.render(fileTemplate, data);
+      if (file === '_gitignore') {
+        fs.renameSync(file, file.replace('_gitignore', '.gitignore'));
+      } else if (file === 'npmrc') {
+        fs.renameSync(file, file.replace('_npmrc', '.npmrc'));
+      }
       fs.writeFileSync(file, content);
       fs.renameSync(file, file.replace('.ejs', ''));
     });
@@ -147,10 +154,17 @@ program
       if (isEqual(Object.keys(data), promptKeys)) {
         const tmpDir = await tmp.dir({ unsafeCleanup: true });
         fs.copySync(`${templateDirPath}/template`, tmpDir.path);
-        const files = (await recursive(tmpDir.path)).filter(file => file.indexOf('.ejs.') > -1);
+        const files = (await recursive(tmpDir.path)).filter(
+          file => file.indexOf('.ejs.') > -1 || file === '_gitignore' || file === 'npmrc'
+        );
         files.forEach(file => {
           const fileTemplate = fs.readFileSync(file).toString();
           const content = ejs.render(fileTemplate, data);
+          if (file === '_gitignore') {
+            fs.renameSync(file, file.replace('_gitignore', '.gitignore'));
+          } else if (file === 'npmrc') {
+            fs.renameSync(file, file.replace('_npmrc', '.npmrc'));
+          }
           fs.writeFileSync(file, content);
           fs.renameSync(file, file.replace('.ejs', ''));
         });
