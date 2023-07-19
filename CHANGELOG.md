@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.5](https://github.com/openflying/cli/compare/v1.2.4...v1.2.5) (2023-07-19)
+
+
+### Bug Fixes
+
+* 判断 _gitignore 和 _npmrc 是否存在 ([c6d424d](https://github.com/openflying/cli/commit/c6d424d))
+
+
+
 ### [1.2.4](https://github.com/openflying/cli/compare/v1.2.3...v1.2.4) (2023-07-18)
 
 
