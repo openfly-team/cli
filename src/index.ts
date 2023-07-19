@@ -82,8 +82,12 @@ program
       fs.writeFileSync(file, content);
       fs.renameSync(file, file.replace('.ejs', ''));
     });
-    fs.renameSync(`${tmpDir.path}/_gitignore`, `${tmpDir.path}/.gitignore`);
-    fs.renameSync(`${tmpDir.path}/_npmrc`, `${tmpDir.path}/.npmrc`);
+    if (fs.existsSync(`${tmpDir.path}/_gitignore`)) {
+      fs.renameSync(`${tmpDir.path}/_gitignore`, `${tmpDir.path}/.gitignore`);
+    }
+    if (fs.existsSync(`${tmpDir.path}/_npmrc`)) {
+      fs.renameSync(`${tmpDir.path}/_npmrc`, `${tmpDir.path}/.npmrc`);
+    }
     fs.copySync(tmpDir.path, process.cwd());
     await tmpDir.cleanup();
   });
