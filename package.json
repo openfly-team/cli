@@ -1,0 +1,86 @@
+{
+  "name": "@openfly/cli",
+  "version": "1.2.6",
+  "description": "Common Frontend Scaffold",
+  "keywords": [
+    "cli",
+    "fe",
+    "scaffold"
+  ],
+  "files": [
+    "dist",
+    "template"
+  ],
+  "bin": {
+    "fly": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w",
+    "prepublishOnly": "yarn build",
+    "release": "standard-version"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/openflying/cli.git",
+    "directory": "packages/cli"
+  },
+  "author": {
+    "name": "紫竹",
+    "email": "luozhu2021@gmail.com",
+    "url": "https://youngjuning.js.org"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/openflying/cli/issues"
+  },
+  "homepage": "https://github.com/openflying/cli/tree/main/#readme",
+  "devDependencies": {
+    "@luozhu/eslint-config-typescript": "^2.1.0",
+    "@luozhu/prettier-config": "^1.2.0",
+    "@types/ejs": "^3.1.2",
+    "@types/fs-extra": "^11.0.1",
+    "@types/lodash.isequal": "^4.5.6",
+    "@types/node": "^20.4.1",
+    "@types/ora": "^3.2.0",
+    "@types/prompts": "^2.4.4",
+    "eslint": "^7.32.0",
+    "lint-staged": "^13.2.3",
+    "prettier": "^2.3.2",
+    "standard-version": "^6",
+    "typescript": "^5.1.6",
+    "yorkie": "^2.0.0"
+  },
+  "dependencies": {
+    "chalk": "4.1.1",
+    "commander": "10.0.1",
+    "cosmiconfig": "^8.2.0",
+    "download-git-repo": "^3.0.2",
+    "download-npm-package": "^3.1.12",
+    "ejs": "^3.1.9",
+    "fs-extra": "^11.1.1",
+    "isemail": "^3.2.0",
+    "kolorist": "^1.8.0",
+    "lodash.isequal": "^4.5.0",
+    "ora": "5.4.1",
+    "prompts": "^2.4.2",
+    "recursive-readdir": "^2.2.3",
+    "tmp-promise": "^3.0.3",
+    "userhome": "^1.0.0"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix"
+    ],
+    "**/*.{md,json}": [
+      "prettier --write"
+    ]
+  }
+}
